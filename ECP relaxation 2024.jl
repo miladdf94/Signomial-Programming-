@@ -36,18 +36,17 @@ end
 function add_cuts(model, x, tilde_x, gamma)
   # X cut
   for i in 1:N 
-      @constraint(model, x[i] <= (x_u[i] - x_l[i]) / (log(x_u[i]) - log(x_l[i])) * (tilde_x[i] - log(x_l[i])) + x_l[i] ) # 24.c
+      @constraint(model, x[i] <= (x_u[i] - x_l[i]) / (log(x_u[i]) - log(x_l[i]) + epsilon) * (tilde_x[i] - log(x_l[i])) + x_l[i] ) # 24.c
   end
   for k in K_set
       for j in Cn[k]
           if (gamma_l[k,j] != gamma_u[k,j]) && (gamma_l[k,j] != 0) && (gamma_u[k,j] != 0)
               # GAMMA CUT:
-              @constraint(model, gamma[k,j] <= (gamma_u[k,j]-gamma_l[k,j])/(log(gamma_u[k,j])-log(gamma_l[k,j]))*(tilde_gamma[k,j]-log(gamma_l[k,j])) + gamma_l[k,j]) # 24.d
+              @constraint(model, gamma[k,j] <= (gamma_u[k,j]-gamma_l[k,j])/(log(gamma_u[k,j])-log(gamma_l[k,j]) + epsilon)*(tilde_gamma[k,j]-log(gamma_l[k,j])) + gamma_l[k,j]) # 24.d
           end
       end
   end
 end
-
 
 ##### OPTIMIZATION MODEL
 model = Model()
