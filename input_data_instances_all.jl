@@ -1,12 +1,6 @@
 
-# This provides data for all instances
-#  PROBLEM DATA
-
-#p_ecp = 1
-#p = 0
-#global method = "ECP"
-
-##### equation 19
+# This provides data for all instances. For further references on where each problem instance is taken from, please refer to the paper.
+##### Functions for finding lower and upper bounds
 function lower_bounds(Aminus, x_l, x_u)
       result = 1.0
       for i in 1:(N-2)  # consider only the original variables: exclude variables x_n+1 and x_n+2 for finding bounds on gamma
@@ -32,7 +26,8 @@ function upper_bounds(Aplus, x_l, x_u)
       return result
 end
   
-  
+#  PROBLEM DATA: instances are not in order.
+
 if p_ecp == 2
       N = 5  # Number of variables (x1, x2, ..., x5): x4 and x5 are auxiliary variables
       M = 4  # Max number of monomials in a constraint
@@ -275,14 +270,6 @@ elseif p_ecp == 3
 
 end
 
-
-############################ END OF PROBLEM DATA
-### Data
-# EXAMPLE 0
-#  min 6(x1)^2 + 4(x2)^2 - 2.5x1x2
-#  s.t: -x1x2 <= -8
-#       1 <= xi <= 10  for i=1,2,3
-
 if p == 1
       #  PROBLEM 1 DATA
       #  PROBLEM 1 DATA
@@ -439,37 +426,5 @@ elseif p == 5
             
 end # of loop for problem 3 data assignemnt r
 
-
-if p == 1 && method == "Qu"
-            model = Model()
-            @variable(model, yy[1:2])
-            @objective(model, Min,  1.0235*yy[1]+5.9967*yy[2]+40.997)
-            @constraint(model, 1.001*yy[1]+2.995*yy[2] >= 6.017)    
-            for i in 1:2
-                  @constraint(model, 0 <= yy[i] <= log(10))
-            end
-            path_of_methods[method] = "C:/Users/gospw/Desktop/Milad/Codes/file.jl"
-elseif p == 1 && method == "Shen"
-            model = Model()
-            @variable(model, yy[1:2])
-            @objective(model, Min,  204.227*yy[1]+118.237*yy[2]-28.290)
-            @constraint(model, -21.4976*yy[1]-21.4976*yy[2] <= -7)    
-            for i in 1:2
-                  @constraint(model, 0 <= yy[i] <= log(10))
-            end
-            path_of_methods[method] = "C:/Users/gospw/Desktop/Milad/Codes/file.jl"
-elseif p == 1 && method == "Floudas"
-            model = Model()
-            @variable(model, yy[1:2])
-            @variable(model, gamma[1:2])
-            @objective(model, Min,  6*gamma[1] +  4*gamma[2] + 5 - 53.744*(yy[1]+yy[2]))
-            @constraint(model, -21.4976*yy[1]-21.4976*yy[2] <= -6)
-            @constraint(model, [2*yy[1] ; 1; gamma[1]] in MOI.ExponentialCone())
-            @constraint(model, [2*yy[2] ; 1; gamma[2]] in MOI.ExponentialCone())
-            for i in 1:2
-                  @constraint(model, 0 <= yy[i] <= log(10))
-            end
-            path_of_methods[method] = "C:/Users/gospw/Desktop/Milad/Codes/file.jl"
-end
 
 
